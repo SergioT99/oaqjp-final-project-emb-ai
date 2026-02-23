@@ -1,0 +1,7 @@
+theia@theiadocker-tapiasergio9:/home/project/EmotionDetection/oaqjp-final-project-
+emb-ai$ pylint final_project/server.py
+************* Module final_project.server
+final_project/server.py:62:0: C0304: Final newline missing (missing-final-newline)
+
+------------------------------------------------------------------
+Your code has been rated at 9.57/10 (previous run: 9.57/10, +0.00)
