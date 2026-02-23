@@ -1,0 +1,54 @@
+import requests
+import json
+
+#Defined the API endpoint URL:
+_URL = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
+
+#Defined the required header with the model id:
+_HEADERS = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
+
+
+def emotion_detector(text_to_analyze: str) -> str:
+    #Built the JSON payload
+    payload = {"raw_document": {"text": text_to_analyze}}
+
+    #Sent a post request
+    resp = requests.post(_URL, headers=_HEADERS, json=payload, timeout=30)
+    
+    #Raise error if request failed
+    resp.raise_for_status()
+
+    #Convert json string response to python dict
+    data = json.loads(resp.text)
+    
+    #Navigatinging into emotions nested structure to get scores
+    emotions = data["emotionPredictions"][0]["emotion"]
+
+    #Extract individual scores
+    anger = emotions.get("anger", 0.0)
+    disgust = emotions.get("disgust", 0.0)
+    fear = emotions.get("fear", 0.0)
+    joy = emotions.get("joy", 0.0)
+    sadness = emotions.get("sadness", 0.0)
+
+    #Store the scores in a dict
+    scores = {
+        "anger": anger,
+        "disgust": disgust,
+        "fear": fear,
+        "joy": joy,
+        "sadness": sadness,
+    }
+
+    #Getting the highest score within the emotions
+    dominant_emotion = max(scores, key=scores.get)
+
+    #Return response
+    return {
+        "anger": anger,
+        "disgust": disgust,
+        "fear": fear,
+        "joy": joy,
+        "sadness": sadness,
+        "dominant_emotion": dominant_emotion,
+    }

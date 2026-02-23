@@ -1,0 +1,12 @@
+theia@theiadocker-tapiasergio9:/home/project/EmotionDetection/oaqj
+p-final-project-emb-ai$ python3 -m unittest -v
+test_anger (test_emotion_detection.TestEmotionDetection) ... ok
+test_disgust (test_emotion_detection.TestEmotionDetection) ... ok
+test_fear (test_emotion_detection.TestEmotionDetection) ... ok
+test_joy (test_emotion_detection.TestEmotionDetection) ... ok
+test_sadness (test_emotion_detection.TestEmotionDetection) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.548s
+
+OK
