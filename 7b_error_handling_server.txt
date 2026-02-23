@@ -19,18 +19,16 @@ def index():
     return render_template("index.html")
 
 
+# REQUIRED: decorator path must be /emotionDetector
 @app.get("/emotionDetector")
 def emotion_detector_route():
     text_to_analyze = request.args.get("textToAnalyze", "").strip()
-
-    # Return 200 so the frontend JS displays the message
     if not text_to_analyze:
-        return "Invalid text! Please try again!"
+        return "Invalid text! Please try again!", 400
 
     result = emotion_detector(text_to_analyze)
 
-    # If backend returned None scores, also return 200 message
-    if result.get("dominant_emotion") is None:
+    if result["dominant_emotion"] is None:
         return "Invalid text! Please try again!"
 
     anger = result["anger"]
@@ -42,11 +40,11 @@ def emotion_detector_route():
 
     return (
         "For the given statement, the system response is "
-        f"'anger': {anger}, 'disgust': {disgust}, "
-        f"'fear': {fear}, 'joy': {joy} and "
-        f"'sadness': {sadness}. "
+        f"'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, "
+        f"'joy': {joy} and 'sadness': {sadness}. "
         f"The dominant emotion is {dominant}."
     )
+
 
 def main() -> None:
     app.run(host="0.0.0.0", port=5000, debug=True)
